@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-8">
+  <div class="mx-auto bg-white rounded-lg overflow-hidden max-w-4xl">
+    <h1 class="text-2xl font-bold p-8 pb-0 text-center">Sistema de gestión de estudiantes</h1>
+    <div class="md:flex">
+      <div class="w-full p-8">
+        <a href="page.html" class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600" >Ver en JQUERY</a>
+        <div class="mt-6">
+          <form action="" class="space-y-4">
+            <div>
+              <label for="id" class="block text-sm font-semibold text-gray-600">Cédula</label>
+              <input type="text" name="id" id="id"
+                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-indigo-500"
+                required>
+            </div>
+            <div>
+              <label for="name" class="block text-sm font-semibold text-gray-600">Nombre</label>
+              <input type="text" name="name" id="name"
+                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-indigo-500"
+                required>
+            </div>
+            <div>
+              <label for="lastName" class="block text-sm font-semibold text-gray-600">Apellido</label>
+              <input type="text" name="lastName" id="lastName"
+                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-indigo-500"
+                required>
+            </div>
+            <div>
+              <label for="address" class="block text-sm font-semibold text-gray-600">Dirección</label>
+              <input type="text" name="address" id="address"
+                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-indigo-500"
+                required>
+            </div>
+            <div>
+              <label for="phoneNumber" class="block text-sm font-semibold text-gray-600">Teléfono</label>
+              <input type="tel" name="phoneNumber" id="phoneNumber"
+                class="w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:border-indigo-500"
+                required>
+            </div>
+            <div class="flex justify-end gap-8">
+              <button type="submit" id="updateButton" name="updateButton"
+                class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Actualizar</button>
+              <button type="button" id="createButton" name="createButton"
+                class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Crear</button>
+            </div>
+          </form>
+        </div>
+        <h1 class="text-2xl font-bold p-8 pb-0 text-center">Tabla de estudiantes</h1>
+
+        <div class="mt-8 max-w-4xl mx-auto overflow-hidden shadow-md">
+          <table class="w-full" id="studentTable">
+            <thead class="bg-gray-50 border-b">
+              <tr>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Cédula</th>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Dirección</th>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+                <th class="text-left p-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Las filas de datos se insertarán aquí dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <script src="ajax.js"></script>
+</body>
+
+</html>

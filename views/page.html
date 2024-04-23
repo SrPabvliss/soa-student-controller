@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css" />
+  <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css" />
+  <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/color.css" />
+  <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/demo/demo.css" />
+  <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.min.js"></script>
+  <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Document</title>
+</head>
+
+<body class="flex justify-center">
+
+  <div class="p-6">
+    <a href="index.html"
+      class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600">Regresar</a>
+    <h1 class="text-2xl font-bold p-8 pb-0 text-center">Tabla de estudiantes (JQUERY)</h1>
+
+
+    <div class="grow flex justify-center">
+
+      <div id="jquery-content  justify-center">
+
+        <div class="mt-6">
+          <p>Click the buttons on datagrid toolbar to do crud actions.</p>
+
+          <table id="dg" title="students" class="easyui-datagrid" style="width:700px;height:500px"
+            url="../controllers/studentController.php" method="GET" toolbar="#toolbar" pagination="true"
+            rownumbers="true" fitColumns="true" singleSelect="true">
+            <thead>
+              <tr>
+                <th field="id" width="50">Cédula</th>
+                <th field="name" width="50">Nombre</th>
+                <th field="lastName" width="50">Apellido</th>
+                <th field="address" width="50">Dirección</th>
+                <th field="phoneNumber" width="50">Teléfono</th>
+              </tr>
+            </thead>
+          </table>
+          <div id="toolbar">
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+              onclick="newUser()">Agregar Estudiante</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+              onclick="editUser()">Editar estudiante</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true"
+              onclick="destroyUser()">Eliminar estudiante</a>
+          </div>
+
+          <div id="dlg" class="easyui-dialog" style="width:400px"
+            data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
+            <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+              <h3>Información del estudiante</h3>
+              <div style="margin-bottom:10px">
+                <input name="id" class="easyui-textbox" required="true" label="Cédula:" style="width:100%">
+              </div>
+              <div style="margin-bottom:10px">
+                <input name="name" class="easyui-textbox" required="true" label="Nombre:" style="width:100%">
+              </div>
+              <div style="margin-bottom:10px">
+                <input name="lastName" class="easyui-textbox" required="true" label="Apellido:" style="width:100%">
+              </div>
+              <div style="margin-bottom:10px">
+                <input name="phoneNumber" class="easyui-textbox" required="true" label="Teléfono:" style="width:100%">
+              </div>
+              <div style="margin-bottom:10px">
+                <input name="address" class="easyui-textbox" required="true" label="Dirección:" style="width:100%">
+              </div>
+            </form>
+          </div>
+          <div id="dlg-buttons">
+            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()"
+              style="width:90px">Guardar</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel"
+              onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
+          </div>
+          <script type="text/javascript">
+            var url;
+
+            function newUser() {
+              $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Estudiante');
+              $('#fm').form('clear');
+              url = '../controllers/studentController.php';
+            }
+
+            function editUser() {
+              var row = $('#dg').datagrid('getSelected');
+              if (row) {
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Estudiante');
+                $('#fm').form('load', row);
+                url = '../models/editStudent.php?id=' + row.id;
+              }
+            }
+
+            function saveUser() {
+              if (url.includes('id')) {
+                console.log('id', url);
+                console.log($(this));
+              }
+
+              $('#fm').form('submit', {
+                url: url,
+                iframe: false,
+                onSubmit: function () {
+                  return $(this).form('validate');
+                },
+                success: function (result) {
+                  var result = eval('(' + result + ')');
+                  if (result.status == 'error') {
+                    $.messager.show({
+                      title: 'Error',
+                      msg: result.message
+                    });
+                  } else {
+                    $('#dlg').dialog('close');
+                    $('#dg').datagrid('reload');
+                  }
+                }
+              });
+            }
+
+            function destroyUser() {
+              var row = $('#dg').datagrid('getSelected');
+              if (row) {
+                $.messager.confirm('Confirm', 'Estas seguro de eliminar este estudiante?', function (r) {
+                  if (r) {
+                    $.ajax({
+                      url: '../controllers/studentController.php?id=' + row.id,
+                      type: 'DELETE',
+                      success: function (result) {
+                        $('#dg').datagrid('reload');
+                      }
+                    });
+                  }
+                });
+              }
+            }
+          </script>
+        </div>
+
+        <div hidden>
+          <h2>Basic DateBox</h2>
+          <p>Click the calendar image on the right side.</p>
+          <div style="margin:20px 0;"></div>
+          <div class="easyui-panel" style="width:100%;max-width:400px;padding:30px 60px;">
+            <div style="margin-bottom:20px">
+              <input class="easyui-datebox" label="Start Date:" labelPosition="top" style="width:100%;">
+            </div>
+            <div style="margin-bottom:20px">
+              <input class="easyui-datebox" label="End Date:" labelPosition="top" style="width:100%;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</body>
+
+</html>
